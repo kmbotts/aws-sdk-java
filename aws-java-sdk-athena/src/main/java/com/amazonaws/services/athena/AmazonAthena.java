@@ -18,6 +18,7 @@ import com.amazonaws.*;
 import com.amazonaws.regions.*;
 
 import com.amazonaws.services.athena.model.*;
+import com.amazonaws.services.athena.waiters.AmazonAthenaWaiters;
 
 /**
  * Interface for accessing Amazon Athena.
@@ -681,4 +682,5 @@ public interface AmazonAthena {
      */
     ResponseMetadata getCachedResponseMetadata(AmazonWebServiceRequest request);
 
+    AmazonAthenaWaiters waiters();
 }

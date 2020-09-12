@@ -40,6 +40,7 @@ import com.amazonaws.client.AwsSyncClientParams;
 import com.amazonaws.client.builder.AdvancedConfig;
 
 import com.amazonaws.services.athena.AmazonAthenaClientBuilder;
+import com.amazonaws.services.athena.waiters.AmazonAthenaWaiters;
 
 import com.amazonaws.AmazonServiceException;
 
@@ -80,6 +81,8 @@ public class AmazonAthenaClient extends AmazonWebServiceClient implements Amazon
 
     /** Default signing name for the service. */
     private static final String DEFAULT_SIGNING_NAME = "athena";
+
+    private volatile AmazonAthenaWaiters waiters;
 
     /** Client configuration factory providing ClientConfigurations tailored to this client */
     protected static final ClientConfigurationFactory configFactory = new ClientConfigurationFactory();
@@ -1893,6 +1896,27 @@ public class AmazonAthenaClient extends AmazonWebServiceClient implements Amazon
      */
     public ResponseMetadata getCachedResponseMetadata(AmazonWebServiceRequest request) {
         return client.getResponseMetadataForRequest(request);
+    }
+
+    @Override
+    public AmazonAthenaWaiters waiters() {
+        if (waiters == null) {
+            synchronized (this) {
+                if (waiters == null) {
+                    waiters = new AmazonAthenaWaiters(this);
+                }
+            }
+        }
+        return waiters;
+
+    }
+
+    @Override
+    public void shutdown() {
+        super.shutdown();
+        if (waiters != null) {
+            waiters.shutdown();
+        }
     }
 
     /**

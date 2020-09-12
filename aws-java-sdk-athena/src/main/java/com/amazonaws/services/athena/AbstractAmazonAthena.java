@@ -15,6 +15,7 @@ package com.amazonaws.services.athena;
 import javax.annotation.Generated;
 
 import com.amazonaws.services.athena.model.*;
+import com.amazonaws.services.athena.waiters.AmazonAthenaWaiters;
 import com.amazonaws.*;
 
 /**
@@ -177,4 +178,8 @@ public class AbstractAmazonAthena implements AmazonAthena {
         throw new java.lang.UnsupportedOperationException();
     }
 
+    @Override
+    public AmazonAthenaWaiters waiters() {
+        throw new java.lang.UnsupportedOperationException();
+    }
 }
